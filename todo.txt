@@ -1,0 +1,62 @@
+import "./styles.css";
+import React, { useState } from "react";
+export default function App() {
+  const [totos, setTodos] = useState([]);
+ const [inputvalue,setInputvalue]=useState('');
+ const [searchValue,setSearchvalue]=useState('')
+
+
+const addTodo=()=>{
+  if(inputvalue.trim() !==''){
+    setTodos([...totos,{ name: inputvalue, count: 0 }]);
+    setInputvalue('')
+  }
+};
+const deletedoto=(index)=>{
+const newtodo=[...totos];
+newtodo.splice(index,1);
+setTodos(newtodo);
+}
+const incrementcount=(index)=>{
+  const newtodo=[...totos]
+  newtodo[index].count+=1;
+  setTodos(newtodo)
+}
+const decrementCount = (index) => {
+  const newTodos = [...totos];
+  if (newTodos[index].count > 0) {
+    newTodos[index].count -= 1;
+    setTodos(newTodos);
+  }
+};
+
+
+const filteredTodos = totos.filter((todo) =>
+todo.name.toLowerCase().includes(searchValue.toLowerCase())
+);
+  return (
+    <div className="App">
+     
+      <div> 
+        <input placeholder="Enter The Item" value={inputvalue}  onChange={(e)=>setInputvalue(e.target.value)}/>
+        <button onClick={addTodo}>Add</button>
+        <input  type =" text" placeholder="search" value={searchValue} 
+      onChange ={(e)=>setSearchvalue(e.target.value)}
+      />    
+
+<ul>
+{filteredTodos.map((todo,index)=>(
+  <li  key={index}>
+   {todo.name}
+  <button onClick={()=>incrementcount(index)}>+</button>
+  <span>{todo.count}</span>
+  <button onClick={()=>decrementCount(index)}>-</button>
+   <button onClick={()=>deletedoto(index)}> Delete</button>
+  </li>
+))}
+</ul>
+      </div>
+    </div>
+  );
+}
+
